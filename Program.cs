@@ -1,50 +1,23 @@
-﻿
-// TODO 1: Khai báo namespace 
- 
-using System; 
- 
-// TODO 2: Khai báo class 
- 
-class Program 
- 
-{ 
- 
-    // TODO 3: Khai báo Main method (điểm khởi đầu của chương trình) 
- 
-    static void Main() 
- 
-    { 
- 
-        // TODO 4: In ra một thông điệp 
- 
-        Console.WriteLine("Chào mừng đến với C#!"); 
- 
-         
- 
-        // TODO 5: Khai báo 3 biến và hiển thị chúng 
- 
-        string ten = "Nguyễn Văn A";  // Chuỗi ký tự 
- 
-        int tuoi = 20;                 // Số nguyên 
- 
-        double diem = 8.5;             // Số thực 
- 
-         
- 
-        Console.WriteLine("Tên: " + ten); 
- 
-        Console.WriteLine("Tuổi: " + tuoi); 
- 
-        Console.WriteLine("Điểm: " + diem); 
- 
-         
- 
-        // TODO 6: Sử dụng string interpolation (cách hiện đại) 
- 
-        Console.WriteLine($"Thông tin: {ten}, tuổi {tuoi}, điểm {diem}"); 
- 
-    } 
- 
-} 
- 
-// TODO: Chạy chương trình 
+using Microsoft.EntityFrameworkCore;
+using OrderManagementApp.Data;
+
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<OrderDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")
+    )
+);
+
+var app = builder.Build();
+
+app.UseStaticFiles();
+app.UseRouting();
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Orders}/{action=Index}/{id?}");
+
+app.Run();

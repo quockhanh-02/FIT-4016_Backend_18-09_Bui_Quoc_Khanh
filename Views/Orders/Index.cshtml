@@ -1,0 +1,42 @@
+﻿@model IEnumerable<OrderManagementApp.Models.Order>
+
+<h2>Orders</h2>
+
+<a asp-action="Create" class="btn btn-primary">Create New Order</a>
+
+<table class="table table-bordered mt-3">
+    <thead>
+        <tr>
+            <th>Order Number</th>
+            <th>Customer</th>
+            <th>Email</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Order Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.OrderNumber</td>
+                <td>@item.CustomerName</td>
+                <td>@item.CustomerEmail</td>
+                <td>@item.Product.Name</td>
+                <td>@item.Quantity</td>
+                <td>@item.OrderDate.ToShortDateString()</td>
+                <td>@(item.DeliveryDate == null ? "Pending" : "Delivered")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    Page @ViewBag.CurrentPage / @ViewBag.TotalPages
+</div>
